@@ -1,6 +1,7 @@
 package com.adamchilds.nativejna.process.service.impl;
 
-import com.adamchilds.nativejna.nativec.Psapi;
+import com.adamchilds.nativejna.exception.ProcessNotFoundException;
+import com.adamchilds.nativejna.nativec.windows.Psapi;
 import com.adamchilds.nativejna.process.model.JProcess;
 import com.adamchilds.nativejna.process.service.ProcessService;
 import com.google.common.base.Predicate;
@@ -24,7 +25,7 @@ public abstract class AbstractProcessServiceImpl implements ProcessService {
      * @param pid the ID of the process to find
      * @return a new {@link JProcess} that represents the process with the given ID
      */
-    public abstract JProcess findProcessById(int pid);
+    public abstract JProcess findProcessById(int pid) throws ProcessNotFoundException;
 
     /**
      * Finds a running process with the given name.
@@ -32,7 +33,7 @@ public abstract class AbstractProcessServiceImpl implements ProcessService {
      * @param name the name of the process to find
      * @return a new {@link JProcess} that represents the process with the given name
      */
-    public abstract JProcess findProcessByExecutableName(String name);
+    public abstract JProcess findProcessByExecutableName(String name) throws ProcessNotFoundException;
 
     /**
      * Opens the process with the given {@code pid} with the given permissions.
@@ -41,7 +42,7 @@ public abstract class AbstractProcessServiceImpl implements ProcessService {
      * @param pid the ID of the process to open
      * @return a {@link Pointer} to the opened process
      */
-    public abstract Pointer openProcess(int permissions, int pid);
+    public abstract Pointer openProcess(int permissions, int pid) throws ProcessNotFoundException;
 
     /**
      * Finds the dynamic address for the given process with the given base address and offsets.
@@ -89,11 +90,7 @@ public abstract class AbstractProcessServiceImpl implements ProcessService {
         Iterable<Integer> processListShortened = Iterables.skip(processList, 1);
         Iterables.removeIf(processListShortened, new Predicate<Integer>() {
             public boolean apply(Integer input) {
-                if (input == 0) {
-                    return true;
-                }
-
-                return false;
+                return input == 0;
             }
         });
 

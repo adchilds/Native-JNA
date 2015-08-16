@@ -1,5 +1,6 @@
 package com.adamchilds.nativejna.process.service.impl;
 
+import com.adamchilds.nativejna.exception.ProcessNotFoundException;
 import com.adamchilds.nativejna.process.model.JProcess;
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
@@ -13,21 +14,21 @@ public class MacProcessServiceImpl extends AbstractProcessServiceImpl {
     /**
      * {@inheritDoc}
      */
-    public JProcess findProcessById(int pid) {
+    public JProcess findProcessById(int pid) throws ProcessNotFoundException {
         throw new NotImplementedException();
     }
 
     /**
      * {@inheritDoc}
      */
-    public JProcess findProcessByExecutableName(String name) {
+    public JProcess findProcessByExecutableName(String name) throws ProcessNotFoundException {
         throw new NotImplementedException();
     }
 
     /**
      * {@inheritDoc}
      */
-    public Pointer openProcess(int permissions, int pid) {
+    public Pointer openProcess(int permissions, int pid) throws ProcessNotFoundException {
         throw new NotImplementedException();
     }
 

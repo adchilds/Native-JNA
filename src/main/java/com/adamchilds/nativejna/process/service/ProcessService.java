@@ -6,6 +6,7 @@ import java.util.List;
  * A simple service for interfacing with native OS processes.
  *
  * @author Adam Childs
+ * @since 1.0
  */
 public interface ProcessService {
 

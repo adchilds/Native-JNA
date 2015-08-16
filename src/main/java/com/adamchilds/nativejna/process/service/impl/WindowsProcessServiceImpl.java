@@ -1,6 +1,7 @@
 package com.adamchilds.nativejna.process.service.impl;
 
-import com.adamchilds.nativejna.nativec.Kernel32;
+import com.adamchilds.nativejna.exception.ProcessNotFoundException;
+import com.adamchilds.nativejna.nativec.windows.Kernel32;
 import com.adamchilds.nativejna.process.ProcessUtil;
 import com.adamchilds.nativejna.process.model.JProcess;
 import com.sun.jna.Memory;
@@ -22,7 +23,7 @@ public class WindowsProcessServiceImpl extends AbstractProcessServiceImpl {
     /**
      * {@inheritDoc}
      */
-    public JProcess findProcessById(int pid) {
+    public JProcess findProcessById(int pid) throws ProcessNotFoundException {
         Tlhelp32.PROCESSENTRY32.ByReference processEntry = new Tlhelp32.PROCESSENTRY32.ByReference();
         WinNT.HANDLE snapshot = kernel32.CreateToolhelp32Snapshot(Tlhelp32.TH32CS_SNAPPROCESS, new WinDef.DWORD(0));
 
@@ -39,13 +40,13 @@ public class WindowsProcessServiceImpl extends AbstractProcessServiceImpl {
             kernel32.CloseHandle(snapshot);
         }
 
-        return null;
+        throw new ProcessNotFoundException("Process with ID=[" + pid + "] cannot be found.");
     }
 
     /**
      * {@inheritDoc}
      */
-    public JProcess findProcessByExecutableName(String name) {
+    public JProcess findProcessByExecutableName(String name) throws ProcessNotFoundException {
         Tlhelp32.PROCESSENTRY32.ByReference processEntry = new Tlhelp32.PROCESSENTRY32.ByReference();
         WinNT.HANDLE snapshot = kernel32.CreateToolhelp32Snapshot(Tlhelp32.TH32CS_SNAPPROCESS, new WinDef.DWORD(0));
 
@@ -62,13 +63,13 @@ public class WindowsProcessServiceImpl extends AbstractProcessServiceImpl {
             kernel32.CloseHandle(snapshot);
         }
 
-        return null;
+        throw new ProcessNotFoundException("Process with name=[" + name + "] cannot be found.");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Pointer openProcess(int permissions, int pid) {
+    public Pointer openProcess(int permissions, int pid) throws ProcessNotFoundException {
         return kernel32.OpenProcess(permissions, true, pid).getPointer();
     }
 

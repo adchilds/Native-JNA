@@ -25,9 +25,24 @@ public class ProcessUtil {
     }
 
     /**
-     * Finds the correct {@link ProcessService} to use based on the current OS type.
+     * Holds constants related to the Mac OSX operating system.
+     */
+    public static class MAC_OSX {
+
+    }
+
+    /**
+     * Holds constants related to the various implementations of the Linux operating system
+     */
+    public static class LINUX {
+
+    }
+
+    /**
+     * Determines the correct {@link ProcessService} to use based on the current operating system that the program is
+     * executing on.
      *
-     * @return the correct {@link ProcessService} to use based on the OS
+     * @return the correct {@link ProcessService} to use based on the host operating system
      */
     public static AbstractProcessServiceImpl getProcessService() {
         if (Platform.isWindows()) {

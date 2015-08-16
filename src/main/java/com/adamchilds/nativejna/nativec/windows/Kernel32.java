@@ -1,10 +1,13 @@
-package com.adamchilds.nativejna.nativec;
+package com.adamchilds.nativejna.nativec.windows;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
 
 /**
+ * Interface into Window's memory management, input/output operations and interrupts.
  *
+ * @author Adam Childs
+ * @since 1.0
  */
 public interface Kernel32 extends com.sun.jna.platform.win32.Kernel32 {
 
